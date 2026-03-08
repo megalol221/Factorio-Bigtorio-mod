@@ -1,4 +1,4 @@
-Mod adds big furnaces
+Mod adds big furnaces, assemblers and drill
 
 stats:
 
@@ -8,4 +8,8 @@ stats:
 
 2x recipe cost
 
-stone and steel - 14x14 tiles, electric - 21x21 tiles
+1x1 to 7x7 tiles,
+
+2x2 to 14x14 tiles,  
+
+3x3 to 21x21 tiles, etc. x7 multiplier
