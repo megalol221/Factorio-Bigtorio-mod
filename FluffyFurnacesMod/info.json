@@ -1,0 +1,11 @@
+{
+  "name": "FluffyFurnacesMod",
+  "version": "0.9",
+  "title": "Fluffy Furnaces Mod",
+  "author": "Fluffy Man",
+  "contact": "",
+  "homepage": "",
+  "dependencies": ["base >= 2.0.0"],
+  "description": "Big furnaces mod by Fluffy Man",
+  "factorio_version": "2.0"
+}
