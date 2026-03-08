@@ -4,7 +4,7 @@ stats:
 
 80% fuel efficiency
 
-125% pollution (because 80% efficiency = 125% fuel consumption)
+125% pollution (because 80% efficiency = 125% consumption)
 
 2x recipe cost
 
