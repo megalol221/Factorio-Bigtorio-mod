@@ -9,8 +9,7 @@ if data.raw.technology["advanced-material-processing"] and data.raw.recipe["stee
         type = "unlock-recipe",
         recipe = "big-steel-furnace"
     })
-end
---Большая стальная печь
+end  --Большая стальная печь
 
 if data.raw.technology["advanced-material-processing-2"] and data.raw.recipe["electric-furnace"] then
 
@@ -23,8 +22,7 @@ if data.raw.technology["advanced-material-processing-2"] and data.raw.recipe["el
         type = "unlock-recipe",
         recipe = "big-electric-furnace"
     })
-end
---Большая электрическая печь
+end  --Большая электрическая печь
 
 if data.raw.technology["automation"] and data.raw.recipe["assembling-machine-1"] then
 
@@ -37,6 +35,44 @@ if data.raw.technology["automation"] and data.raw.recipe["assembling-machine-1"]
         type = "unlock-recipe",
         recipe = "big-assembling-machine-1"
     })
-end
- --Большой Сборочный автомат 1
+end  --Большой сборочный автомат 1
  
+if data.raw.technology["electric-mining-drill"] and data.raw.recipe["electric-mining-drill"] then
+
+    if not data.raw.technology["electric-mining-drill"].effects then
+        data.raw.technology["electric-mining-drill"].effects = {}
+    end
+    
+
+    table.insert(data.raw.technology["electric-mining-drill"].effects, {
+        type = "unlock-recipe",
+        recipe = "big-electric-mining-drill"
+    })
+end  --Большой электрический бур
+
+
+if data.raw.technology["electronics"] and data.raw.recipe["lab"] then
+
+    if not data.raw.technology["electronics"].effects then
+        data.raw.technology["electronics"].effects = {}
+    end
+    
+
+    table.insert(data.raw.technology["electronics"].effects, {
+        type = "unlock-recipe",
+        recipe = "big-lab"
+    })
+end  --Большая лаборатория
+
+if data.raw.technology["radar"] and data.raw.recipe["radar"] then
+
+    if not data.raw.technology["radar"].effects then
+        data.raw.technology["radar"].effects = {}
+    end
+    
+
+    table.insert(data.raw.technology["radar"].effects, {
+        type = "unlock-recipe",
+        recipe = "big-radar"
+    })
+end  --Большой радар

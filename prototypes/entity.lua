@@ -1,4 +1,3 @@
-
 local sounds = require("__base__.prototypes.entity.sounds")
 local hit_effects = require("__base__.prototypes.entity.hit-effects")
 
@@ -176,7 +175,6 @@ data:extend
       }
     }
   },
-
 
   {  --Большая стальная печь
     type = "furnace",
@@ -528,7 +526,7 @@ data:extend
     }
   },
 
-  {  --Большой Сборочный автомат 1
+  {  --Большой сборочный автомат 1
     type = "assembling-machine",
     name = "big-assembling-machine-1",
     icon = "__base__/graphics/icons/assembling-machine-1.png",
@@ -605,7 +603,7 @@ data:extend
     }
   },
 
-  {  --Большой Железный сундук
+  {  --Большой железный сундук
     type = "container",
     name = "big-iron-chest",
     icon = "__base__/graphics/icons/iron-chest.png",
@@ -658,6 +656,240 @@ data:extend
       }
     },
     circuit_connector = circuit_connector_definitions["chest"],
+    circuit_wire_max_distance = default_circuit_wire_max_distance
+  },
+
+  { --Большая лаборатория
+    type = "lab",
+    name = "big-lab",
+    icon = "__base__/graphics/icons/lab.png",
+    flags = {"placeable-player", "player-creation"},
+    minable = {mining_time = 0.4, result = "big-lab"},
+    fast_replaceable_group = "lab",
+    max_health = 300,
+    corpse = "lab-remnants",
+    dying_explosion = "lab-explosion",
+    collision_box = {{-10.2, -10.2}, {10.2, 10.2}},
+    selection_box = {{-10.5, -10.5}, {10.5, 10.5}},
+    damaged_trigger_effect = hit_effects.entity(),
+    on_animation =
+    {
+      layers =
+      {
+        {
+          filename = "__base__/graphics/entity/lab/lab.png",
+          width = 194,
+          height = 174,
+          frame_count = 33,
+          line_length = 11,
+          animation_speed = 1 / 3,
+          shift = util.by_pixel(0, 1.5),
+          scale = 3.5
+        },
+        {
+          filename = "__base__/graphics/entity/lab/lab-integration.png",
+          width = 242,
+          height = 162,
+          line_length = 1,
+          repeat_count = 33,
+          animation_speed = 1 / 3,
+          shift = util.by_pixel(0, 15.5),
+          scale = 3.5
+        },
+        {
+          filename = "__base__/graphics/entity/lab/lab-light.png",
+          blend_mode = "additive",
+          draw_as_light = true,
+          width = 216,
+          height = 194,
+          frame_count = 33,
+          line_length = 11,
+          animation_speed = 1 / 3,
+          shift = util.by_pixel(0, 0),
+          scale = 3.5
+        },
+        {
+          filename = "__base__/graphics/entity/lab/lab-shadow.png",
+          width = 242,
+          height = 136,
+          line_length = 1,
+          repeat_count = 33,
+          animation_speed = 1 / 3,
+          shift = util.by_pixel(13, 11),
+          scale = 3.5,
+          draw_as_shadow = true
+        }
+      }
+    },
+    off_animation =
+    {
+      layers =
+      {
+        {
+          filename = "__base__/graphics/entity/lab/lab.png",
+          width = 194,
+          height = 174,
+          shift = util.by_pixel(0, 1.5),
+          scale = 3.5
+        },
+        {
+          filename = "__base__/graphics/entity/lab/lab-integration.png",
+          width = 242,
+          height = 162,
+          shift = util.by_pixel(0, 15.5),
+          scale = 3.5
+        },
+        {
+          filename = "__base__/graphics/entity/lab/lab-shadow.png",
+          width = 242,
+          height = 136,
+          shift = util.by_pixel(13, 11),
+          draw_as_shadow = true,
+          scale = 3.5
+        }
+      }
+    },
+    working_sound =
+    {
+      sound =
+      {
+        filename = "__base__/sound/lab.ogg",
+        volume = 0.7,
+        modifiers = {volume_multiplier("main-menu", 2.2), volume_multiplier("tips-and-tricks", 0.8)},
+        audible_distance_modifier = 0.7,
+      },
+      fade_in_ticks = 4,
+      fade_out_ticks = 20
+    },
+    impact_category = "glass",
+    open_sound = sounds.lab_open,
+    close_sound = sounds.lab_close,
+    energy_source =
+    {
+      type = "electric",
+      usage_priority = "secondary-input"
+    },
+    energy_usage = "3600kW",
+    researching_speed = 48,
+    inputs =
+    {
+      "automation-science-pack",
+      "logistic-science-pack",
+      "military-science-pack",
+      "chemical-science-pack",
+      "production-science-pack",
+      "utility-science-pack",
+      "space-science-pack"
+    },
+    module_slots = 2,
+    icons_positioning =
+    {
+      {inventory_index = defines.inventory.lab_modules, shift = {0, 0.9}},
+      {inventory_index = defines.inventory.lab_input, shift = {0, 0}, max_icons_per_row = 4, separation_multiplier = 1/1.1}
+    },
+  },
+
+  { --Большой радар
+    type = "radar",
+    name = "big-radar",
+    icon = "__base__/graphics/icons/radar.png",
+    flags = {"placeable-player", "player-creation"},
+    minable = {mining_time = 0.2, result = "big-radar"},
+    fast_replaceable_group = "radar",
+    max_health = 500,
+    corpse = "radar-remnants",
+    dying_explosion = "radar-explosion",
+    resistances =
+    {
+      {
+        type = "fire",
+        percent = 70
+      },
+      {
+        type = "impact",
+        percent = 30
+      }
+    },
+    collision_box = {{-10.2, -10.2}, {10.2, 10.2}},
+    selection_box = {{-10.5, -10.5}, {10.5, 10.5}},
+    damaged_trigger_effect = hit_effects.entity(),
+    energy_per_sector = "12500kJ", --10MJ
+    max_distance_of_sector_revealed = 36, --14
+    max_distance_of_nearby_sector_revealed = 8, --3
+    --14*14 = 196, 3*3 = 9, 196*9*48 = 84672
+    --36*36 = 1296, 8*8 = 64, 1296*64 = 82944, 
+    --наиболее приближенно к изначальной площади, умноженной на 48. С сохранением пропорций.
+    energy_per_nearby_scan = "12000kJ",
+    energy_source =
+    {
+      type = "electric",
+      usage_priority = "secondary-input"
+    },
+    energy_usage = "14400kW",
+    integration_patch =
+    {
+      filename = "__base__/graphics/entity/radar/radar-integration.png",
+      priority = "low",
+      width = 238,
+      height = 216,
+      shift = util.by_pixel(1.5, 4.0),
+      scale = 3.5
+    },
+    pictures =
+    {
+      layers =
+      {
+        {
+          filename = "__base__/graphics/entity/radar/radar.png",
+          priority = "low",
+          width = 196,
+          height = 254,
+          apply_projection = false,
+          direction_count = 64,
+          line_length = 8,
+          shift = util.by_pixel(1.0, -112.0),
+          scale = 3.5
+        },
+        {
+          filename = "__base__/graphics/entity/radar/radar-shadow.png",
+          priority = "low",
+          width = 336,
+          height = 170,
+          apply_projection = false,
+          direction_count = 64,
+          line_length = 8,
+          shift = util.by_pixel(39.0, -90.0),
+          draw_as_shadow = true,
+          scale = 3.5
+        }
+      }
+    },
+    impact_category = "metal",
+    working_sound =
+    {
+      sound = {filename = "__base__/sound/radar.ogg", volume = 0.8, modifiers = volume_multiplier("main-menu", 2.0)},
+      max_sounds_per_prototype = 3,
+      use_doppler_shift = false
+    },
+    radius_minimap_visualisation_color = {0.059, 0.092, 0.235, 0.275},
+    rotation_speed = 0.01,
+    water_reflection =
+    {
+      pictures =
+      {
+        filename = "__base__/graphics/entity/radar/radar-reflection.png",
+        priority = "extra-high",
+        width = 28,
+        height = 32,
+        shift = util.by_pixel(5, -61),
+        variation_count = 1,
+        scale = 35
+      },
+      rotate = false,
+      orientation_to_variation = false
+    },
+    is_military_target = false,
+    circuit_connector = circuit_connector_definitions["radar"],
     circuit_wire_max_distance = default_circuit_wire_max_distance
   },
 })

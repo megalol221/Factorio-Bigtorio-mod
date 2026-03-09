@@ -43,7 +43,7 @@ data:extend
     weight = 20*kg
   },
 
-  { --Большой Сборочный автомат 1
+  { --Большой сборочный автомат 1
     type = "item",
     name = "big-assembling-machine-1",
     icon = "__base__/graphics/icons/assembling-machine-1.png",
@@ -58,7 +58,7 @@ data:extend
     random_tint_color = item_tints.iron_rust
   },
 
-  {  --Большой Электрический бур
+  {  --Большой электрический бур
     type = "item",
     name = "big-electric-mining-drill",
     icon = "__base__/graphics/icons/electric-mining-drill.png",
@@ -81,6 +81,33 @@ data:extend
     pick_sound = item_sounds.metal_chest_inventory_pickup,
     drop_sound = item_sounds.metal_chest_inventory_move,
     place_result = "big-iron-chest",
+    stack_size = 5,
+    random_tint_color = item_tints.iron_rust
+  },
+
+  { --Большая лаборатория
+    type = "item",
+    name = "big-lab",
+    icon = "__base__/graphics/icons/lab.png",
+    subgroup = "production-machine",
+    order = "zb[lab]",
+    inventory_move_sound = item_sounds.lab_inventory_move,
+    pick_sound = item_sounds.lab_inventory_pickup,
+    drop_sound = item_sounds.lab_inventory_move,
+    place_result = "big-lab",
+    stack_size = 1
+  },
+
+  { --Большой радар
+    type = "item",
+    name = "big-radar",
+    icon = "__base__/graphics/icons/radar.png",
+    subgroup = "defensive-structure",
+    order = "d[radar]-ab[radar]",
+    inventory_move_sound = item_sounds.metal_large_inventory_move,
+    pick_sound = item_sounds.metal_large_inventory_pickup,
+    drop_sound = item_sounds.metal_large_inventory_move,
+    place_result = "big-radar",
     stack_size = 5,
     random_tint_color = item_tints.iron_rust
   },

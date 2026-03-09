@@ -25,7 +25,7 @@ data:extend
     enabled = false
   },
 
-  {  --Большой Сборочный автомат 1
+  {  --Большой сборочный автомат 1
     type = "recipe",
     name = "big-assembling-machine-1",
     enabled = false,
@@ -33,7 +33,7 @@ data:extend
     results = {{type="item", name="big-assembling-machine-1", amount=1}}
   },
 
-  {  --Большой Электрический бур
+  {  --Большой электрический бур
     type = "recipe",
     name = "big-electric-mining-drill",
     enabled = false,
@@ -47,5 +47,21 @@ data:extend
     enabled = true,
     ingredients = {{type = "item", name = "iron-chest", amount = 96}},
     results = {{type="item", name="big-iron-chest", amount=1}}
+  },
+
+  {  --Большая лаборатория
+    type = "recipe",
+    name = "big-lab",
+    enabled = false,
+    ingredients = {{type = "item", name = "lab", amount = 96}},
+    results = {{type="item", name="big-lab", amount=1}}
+  },
+
+  { --Большой радар
+    type = "recipe",
+    name = "big-radar",
+    enabled = false,
+    ingredients = {{type = "item", name = "radar", amount = 96}},
+    results = {{type="item", name="big-radar", amount=1}}
   },
 })
