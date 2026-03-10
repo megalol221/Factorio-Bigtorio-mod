@@ -1,4 +1,4 @@
-Mod adds big furnaces, assemblers and drill
+Mod adds big furnaces, assemblers, drill and other
 
 i just like multiblocks from gregtech lmao
 
@@ -10,4 +10,4 @@ stats:
 
 2x recipe cost
 
-x7 tiles multiplier
+x7 tiles/scale multiplier
