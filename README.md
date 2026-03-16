@@ -1,3 +1,5 @@
+MOD IS FROZEN(FOREVER)
+
 Mod adds big furnaces, assemblers, drill and other
 
 i just like multiblocks from gregtech lmao
