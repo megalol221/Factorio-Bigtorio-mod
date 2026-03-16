@@ -33,6 +33,14 @@ data:extend
     results = {{type="item", name="big-assembling-machine-1", amount=1}}
   },
 
+  {  --Большой сборочный автомат 2
+    type = "recipe",
+    name = "big-assembling-machine-2",
+    enabled = false,
+    ingredients = {{type = "item", name = "assembling-machine-2", amount = 96}},
+    results = {{type="item", name="big-assembling-machine-2", amount=1}}
+  },
+
   {  --Большой электрический бур
     type = "recipe",
     name = "big-electric-mining-drill",
@@ -57,11 +65,45 @@ data:extend
     results = {{type="item", name="big-lab", amount=1}}
   },
 
-  { --Большой радар
+  {  --Большой радар
     type = "recipe",
     name = "big-radar",
     enabled = false,
     ingredients = {{type = "item", name = "radar", amount = 96}},
     results = {{type="item", name="big-radar", amount=1}}
   },
+
+  {  --Большой бойлер
+    type = "recipe",
+    name = "big-boiler",
+    enabled = false,
+    ingredients = {{type = "item", name = "boiler", amount = 96}},
+    results = {{type="item", name="big-boiler", amount=1}}
+  },
+
+  {  --Большой паровой двигатель
+    type = "recipe",
+    name = "big-steam-engine",
+    enabled = false,
+    ingredients = {{type = "item", name = "steam-engine", amount = 96}},
+    results = {{type="item", name="big-steam-engine", amount=1}}
+  },
+
+  {  --Большой нефтеперерабатывающий завод
+    type = "recipe",
+    name = "big-oil-refinery",
+    enabled = false,
+    ingredients = {{type = "item", name = "oil-refinery", amount = 96}},
+    results = {{type="item", name="big-steam-engine", amount=1}}
+  },
+
+  {  --Большая деревянная опора ЛЭП
+    type = "recipe",
+    name = "big-small-electric-pole",
+    enabled = false,
+    ingredients = {{type = "item", name = "small-electric-pole", amount = 192}},
+    results = {{type="item", name="big-small-electric-pole", amount=1}}
+  },
+
+
 })

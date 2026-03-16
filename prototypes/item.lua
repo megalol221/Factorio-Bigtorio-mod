@@ -43,7 +43,7 @@ data:extend
     weight = 20*kg
   },
 
-  { --Большой сборочный автомат 1
+  {  --Большой сборочный автомат 1
     type = "item",
     name = "big-assembling-machine-1",
     icon = "__base__/graphics/icons/assembling-machine-1.png",
@@ -56,6 +56,20 @@ data:extend
     place_result = "big-assembling-machine-1",
     stack_size = 5,
     random_tint_color = item_tints.iron_rust
+  },
+
+  {  --Большой сборочный автомат 2
+    type = "item",
+    name = "big-assembling-machine-2",
+    icon = "__base__/graphics/icons/assembling-machine-2.png",
+    subgroup = "production-machine",
+    color_hint = { text = "2" },
+    order = "bb[assembling-machine-2]",
+    inventory_move_sound = item_sounds.mechanical_inventory_move,
+    pick_sound = item_sounds.mechanical_inventory_pickup,
+    drop_sound = item_sounds.mechanical_inventory_move,
+    place_result = "big-assembling-machine-2",
+    stack_size = 5
   },
 
   {  --Большой электрический бур
@@ -85,7 +99,7 @@ data:extend
     random_tint_color = item_tints.iron_rust
   },
 
-  { --Большая лаборатория
+  {  --Большая лаборатория
     type = "item",
     name = "big-lab",
     icon = "__base__/graphics/icons/lab.png",
@@ -98,7 +112,7 @@ data:extend
     stack_size = 1
   },
 
-  { --Большой радар
+  {  --Большой радар
     type = "item",
     name = "big-radar",
     icon = "__base__/graphics/icons/radar.png",
@@ -111,4 +125,61 @@ data:extend
     stack_size = 5,
     random_tint_color = item_tints.iron_rust
   },
+
+  {  --Большой бойлер
+    type = "item",
+    name = "big-boiler",
+    icon = "__base__/graphics/icons/boiler.png",
+    subgroup = "energy",
+    order = "b[steam-power]-ab[boiler]",
+    inventory_move_sound = item_sounds.steam_inventory_move,
+    pick_sound = item_sounds.steam_inventory_pickup,
+    drop_sound = item_sounds.steam_inventory_move,
+    place_result = "big-boiler",
+    stack_size = 5,
+    random_tint_color = item_tints.iron_rust
+  },
+
+  {  --Большой паровой двигатель
+    type = "item",
+    name = "big-steam-engine",
+    icon = "__base__/graphics/icons/steam-engine.png",
+    subgroup = "energy",
+    order = "b[steam-power]-bb[steam-engine]",
+    inventory_move_sound = item_sounds.steam_inventory_move,
+    pick_sound = item_sounds.steam_inventory_pickup,
+    drop_sound = item_sounds.steam_inventory_move,
+    place_result = "big-steam-engine",
+    stack_size = 1,
+    random_tint_color = item_tints.iron_rust
+  },
+
+  {  --Большой нефтеперерабатывающий завод
+    type = "item",
+    name = "big-oil-refinery",
+    icon = "__base__/graphics/icons/oil-refinery.png",
+    subgroup = "production-machine",
+    order = "db[refinery]",
+    inventory_move_sound = item_sounds.fluid_inventory_move,
+    pick_sound = item_sounds.fluid_inventory_pickup,
+    drop_sound = item_sounds.fluid_inventory_move,
+    place_result = "big-oil-refinery",
+    stack_size = 1
+  },
+
+  {  --Большая деревянная опора ЛЭП
+    type = "item",
+    name = "big-small-electric-pole",
+    icon = "__base__/graphics/icons/small-electric-pole.png",
+    subgroup = "energy-pipe-distribution",
+    order = "a[energy]-ab[small-electric-pole]",
+    inventory_move_sound = item_sounds.electric_small_inventory_move,
+    pick_sound = item_sounds.electric_small_inventory_pickup,
+    drop_sound = item_sounds.electric_small_inventory_move,
+    place_result = "big-small-electric-pole",
+    stack_size = 5
+  },
+
+
+
 })

@@ -1,6 +1,24 @@
 local sounds = require("__base__.prototypes.entity.sounds")
 local hit_effects = require("__base__.prototypes.entity.hit-effects")
 
+function boiler_reflection()
+  return
+  {
+    pictures =
+    {
+      filename = "__base__/graphics/entity/boiler/boiler-reflection.png",
+      priority = "extra-high",
+      width = 28,
+      height = 32,
+      shift = util.by_pixel(5, 30),
+      variation_count = 4,
+      scale = 35
+    },
+    rotate = false,
+    orientation_to_variation = true
+  }
+end
+
 data:extend
 ({
   {  --Большая каменная печь
@@ -603,6 +621,104 @@ data:extend
     }
   },
 
+  {  --Большой сборочный автомат 2
+    type = "assembling-machine",
+    name = "big-assembling-machine-2",
+    icon = "__base__/graphics/icons/assembling-machine-2.png",
+    flags = {"placeable-neutral", "placeable-player", "player-creation"},
+    minable = {mining_time = 0.4, result = "big-assembling-machine-2"},
+    max_health = 700,
+    corpse = "assembling-machine-2-remnants",
+    dying_explosion = "assembling-machine-2-explosion",
+    icon_draw_specification = {shift = {0, -0.3}},
+    circuit_wire_max_distance = assembling_machine_circuit_wire_max_distance,
+    circuit_connector = circuit_connector_definitions["assembling-machine"],
+    alert_icon_shift = util.by_pixel(0, -12),
+    resistances =
+    {
+      {
+        type = "fire",
+        percent = 70
+      }
+    },
+    fluid_boxes =
+    {
+      {
+        production_type = "input",
+        pipe_picture = assembler2pipepictures(),
+        pipe_covers = pipecoverspictures(),
+        volume = 1000,
+        pipe_connections = {{ flow_direction="input", direction = defines.direction.north, position = {0, -10} }}, --0, -1
+        secondary_draw_orders = { north = -1 }
+      },
+      {
+        production_type = "output",
+        pipe_picture = assembler2pipepictures(),
+        pipe_covers = pipecoverspictures(),
+        volume = 1000,
+        pipe_connections = {{ flow_direction="output", direction = defines.direction.south, position = {0, 10} }}, --0, 1
+        secondary_draw_orders = { north = -1 }
+      }
+    },
+    fluid_boxes_off_when_no_fluid_recipe = true,
+    collision_box = {{-10.2, -10.2}, {10.2, 10.2}},
+    selection_box = {{-10.5, -10.5}, {10.5, 10.5}},
+    damaged_trigger_effect = hit_effects.entity(),
+    fast_replaceable_group = "assembling-machine",
+    --next_upgrade = "assembling-machine-3",
+    graphics_set =
+    {
+      animation =
+      {
+        layers =
+        {
+          {
+            filename = "__base__/graphics/entity/assembling-machine-2/assembling-machine-2.png",
+            priority = "high",
+            width = 214,
+            height = 218,
+            frame_count = 32,
+            line_length = 8,
+            shift = util.by_pixel(0, 4),
+            scale = 4
+          },
+          {
+            filename = "__base__/graphics/entity/assembling-machine-2/assembling-machine-2-shadow.png",
+            priority = "high",
+            width = 196,
+            height = 163,
+            frame_count = 32,
+            line_length = 8,
+            draw_as_shadow = true,
+            shift = util.by_pixel(12, 4.75),
+            scale = 4
+          }
+        }
+      },
+    },
+    open_sound = sounds.machine_open,
+    close_sound = sounds.machine_close,
+    impact_category = "metal",
+    working_sound =
+    {
+      sound = {filename = "__base__/sound/assembling-machine-t2-1.ogg", volume = 0.45, audible_distance_modifier = 0.5},
+      fade_in_ticks = 4,
+      fade_out_ticks = 20
+    },
+    crafting_categories = {"basic-crafting", "crafting", "advanced-crafting", "crafting-with-fluid"},
+
+    crafting_speed = 36,
+    energy_source =
+    {
+      type = "electric",
+      usage_priority = "secondary-input",
+      emissions_per_minute = { pollution = 180 }
+    },
+    energy_usage = "9000kW",
+    module_slots = 2,
+    allowed_effects = {"consumption", "speed", "productivity", "pollution", "quality"}
+  },
+
   {  --Большой железный сундук
     type = "container",
     name = "big-iron-chest",
@@ -659,7 +775,7 @@ data:extend
     circuit_wire_max_distance = default_circuit_wire_max_distance
   },
 
-  { --Большая лаборатория
+  {  --Большая лаборатория
     type = "lab",
     name = "big-lab",
     icon = "__base__/graphics/icons/lab.png",
@@ -789,7 +905,7 @@ data:extend
     },
   },
 
-  { --Большой радар
+  {  --Большой радар
     type = "radar",
     name = "big-radar",
     icon = "__base__/graphics/icons/radar.png",
@@ -892,4 +1008,804 @@ data:extend
     circuit_connector = circuit_connector_definitions["radar"],
     circuit_wire_max_distance = default_circuit_wire_max_distance
   },
+
+  {  --Большой бойлер
+    type = "boiler",
+    name = "big-boiler",
+    icon = "__base__/graphics/icons/boiler.png",
+    flags = {"placeable-neutral", "player-creation"},
+    minable = {mining_time = 0.4, result = "big-boiler"},
+    fast_replaceable_group = "boiler",
+    max_health = 400,
+    corpse = "boiler-remnants",
+    dying_explosion = "boiler-explosion",
+    impact_category = "metal-large",
+    mode = "output-to-separate-pipe",
+    resistances =
+    {
+      {
+        type = "fire",
+        percent = 90
+      },
+      {
+        type = "explosion",
+        percent = 30
+      },
+      {
+        type = "impact",
+        percent = 30
+      }
+    },
+    collision_box = {{-10.3, -6.8}, {10.3, 6.8}},
+    selection_box = {{-10.5, -7}, {10.5, 7}},
+    damaged_trigger_effect = hit_effects.entity(),
+    target_temperature = 165,
+    fluid_box =
+    {
+      volume = 200,
+      pipe_covers = pipecoverspictures(),
+      pipe_connections =
+      {
+        {flow_direction = "input-output", direction = defines.direction.west, position = {-10.3, 0.5}}, -- -1, 0.5
+        {flow_direction = "input-output", direction = defines.direction.east, position = {10.3, 0.5}} -- 1, 0.5
+      },
+      production_type = "input",
+      filter = "water"
+    },
+    output_fluid_box =
+    {
+      volume = 200,
+      pipe_covers = pipecoverspictures(),
+      pipe_connections =
+      {
+        {flow_direction = "output", direction = defines.direction.north, position = {0, -6.8}} -- 0, -0.5
+      },
+      production_type = "output",
+      filter = "steam"
+    },
+    energy_consumption = "86400kW",
+    energy_source =
+    {
+      type = "burner",
+      fuel_categories = {"chemical"},
+      effectivity = 0.8,
+      fuel_inventory_size = 5,
+      emissions_per_minute = { pollution = 1800 },
+      light_flicker =
+      {
+        color = {0,0,0},
+        minimum_intensity = 0.6,
+        maximum_intensity = 0.95
+      },
+      smoke =
+      {
+        {
+          name = "smoke",
+          north_position = util.by_pixel(-38, -47.5),
+          south_position = util.by_pixel(38.5, -32),
+          east_position = util.by_pixel(20, -70),
+          west_position = util.by_pixel(-19, -8.5),
+          frequency = 15,
+          starting_vertical_speed = 0.0,
+          starting_frame_deviation = 60
+        }
+      }
+    },
+    working_sound =
+    {
+      sound = {filename = "__base__/sound/boiler.ogg", volume = 0.7, audible_distance_modifier = 0.3},
+      fade_in_ticks = 4,
+      fade_out_ticks = 20
+    },
+    open_sound = sounds.steam_open,
+    close_sound = sounds.steam_close,
+
+    pictures =
+    {
+      north =
+      {
+        structure =
+        {
+          layers =
+          {
+            {
+              filename = "__base__/graphics/entity/boiler/boiler-N-idle.png",
+              priority = "extra-high",
+              width = 269,
+              height = 221,
+              shift = util.by_pixel(-1.25, 5.25),
+              scale = 3.5
+            },
+            {
+              filename = "__base__/graphics/entity/boiler/boiler-N-shadow.png",
+              priority = "extra-high",
+              width = 274,
+              height = 164,
+              scale = 3.5,
+              shift = util.by_pixel(20.5, 9),
+              draw_as_shadow = true
+            }
+          }
+        },
+        fire =
+        {
+          filename = "__base__/graphics/entity/boiler/boiler-N-fire.png",
+          draw_as_glow = true,
+          priority = "extra-high",
+          frame_count = 64,
+          line_length = 8,
+          width = 26,
+          height = 26,
+          animation_speed = 0.5,
+          shift = util.by_pixel(0, -8.5),
+          scale = 3.5
+        },
+        fire_glow =
+        {
+          filename = "__base__/graphics/entity/boiler/boiler-N-light.png",
+          draw_as_glow = true,
+          priority = "extra-high",
+          width = 200,
+          height = 173,
+          shift = util.by_pixel(-1, -6.75),
+          blend_mode = "additive",
+          scale = 3.5
+        },
+      },
+      east =
+      {
+        structure =
+        {
+          layers =
+          {
+            {
+              filename = "__base__/graphics/entity/boiler/boiler-E-idle.png",
+              priority = "extra-high",
+              width = 216,
+              height = 301,
+              shift = util.by_pixel(-3, 1.25),
+              scale = 3.5
+            },
+            {
+              filename = "__base__/graphics/entity/boiler/boiler-E-shadow.png",
+              priority = "extra-high",
+              width = 184,
+              height = 194,
+              scale = 3.5,
+              shift = util.by_pixel(30, 9.5),
+              draw_as_shadow = true
+            }
+          }
+        },
+        patch =
+        {
+          filename = "__base__/graphics/entity/boiler/boiler-E-patch.png",
+          width = 6,
+          height = 36,
+          shift = util.by_pixel(33.5, -13.5),
+          scale = 3.5
+        },
+        fire =
+        {
+          filename = "__base__/graphics/entity/boiler/boiler-E-fire.png",
+          draw_as_glow = true,
+          priority = "extra-high",
+          frame_count = 64,
+          line_length = 8,
+          width = 28,
+          height = 28,
+          animation_speed = 0.5,
+          shift = util.by_pixel(-9.5, -22),
+          scale = 3.5
+        },
+        fire_glow =
+        {
+          filename = "__base__/graphics/entity/boiler/boiler-E-light.png",
+          draw_as_glow = true,
+          priority = "extra-high",
+          width = 139,
+          height = 244,
+          shift = util.by_pixel(0.25, -13),
+          blend_mode = "additive",
+          scale = 3.5
+        },
+      },
+      south =
+      {
+        structure =
+        {
+          layers =
+          {
+            {
+              filename = "__base__/graphics/entity/boiler/boiler-S-idle.png",
+              priority = "extra-high",
+              width = 260,
+              height = 192,
+              shift = util.by_pixel(4, 13),
+              scale = 3.5
+            },
+            {
+              filename = "__base__/graphics/entity/boiler/boiler-S-shadow.png",
+              priority = "extra-high",
+              width = 311,
+              height = 131,
+              scale = 3.5,
+              shift = util.by_pixel(29.75, 15.75),
+              draw_as_shadow = true
+            }
+          },
+        },
+        fire =
+        {
+          filename = "__base__/graphics/entity/boiler/boiler-S-fire.png",
+          draw_as_glow = true,
+          priority = "extra-high",
+          frame_count = 64,
+          line_length = 8,
+          width = 26,
+          height = 16,
+          animation_speed = 0.5,
+          shift = util.by_pixel(-1, -26.5),
+          scale = 3.5
+        },
+        fire_glow =
+        {
+          filename = "__base__/graphics/entity/boiler/boiler-S-light.png",
+          draw_as_glow = true,
+          priority = "extra-high",
+          width = 200,
+          height = 162,
+          shift = util.by_pixel(1, 5.5),
+          blend_mode = "additive",
+          scale = 3.5
+        },
+      },
+      west =
+      {
+        structure =
+        {
+          layers =
+          {
+            {
+              filename = "__base__/graphics/entity/boiler/boiler-W-idle.png",
+              priority = "extra-high",
+              width = 196,
+              height = 273,
+              shift = util.by_pixel(1.5, 7.75),
+              scale = 3.5
+            },
+            {
+              filename = "__base__/graphics/entity/boiler/boiler-W-shadow.png",
+              priority = "extra-high",
+              width = 206,
+              height = 218,
+              scale = 3.5,
+              shift = util.by_pixel(19.5, 6.5),
+              draw_as_shadow = true
+            }
+          },
+        },
+        fire =
+        {
+          filename = "__base__/graphics/entity/boiler/boiler-W-fire.png",
+          draw_as_glow = true,
+          priority = "extra-high",
+          frame_count = 64,
+          line_length = 8,
+          width = 30,
+          height = 29,
+          animation_speed = 0.5,
+          shift = util.by_pixel(13, -23.25),
+          scale = 3.5
+        },
+        fire_glow =
+        {
+          filename = "__base__/graphics/entity/boiler/boiler-W-light.png",
+          draw_as_glow = true,
+          priority = "extra-high",
+          width = 136,
+          height = 217,
+          shift = util.by_pixel(2, -6.25),
+          blend_mode = "additive",
+          scale = 3.5
+        },
+      }
+    },
+
+    fire_flicker_enabled = true,
+    fire_glow_flicker_enabled = true,
+    burning_cooldown = 20,
+    water_reflection = boiler_reflection()
+  },
+
+  {  --Большой паровой двигатель
+    type = "generator",
+    name = "big-steam-engine",
+    icon = "__base__/graphics/icons/steam-engine.png",
+    flags = {"placeable-neutral","player-creation"},
+    minable = {mining_time = 0.6, result = "big-steam-engine"},
+    max_health = 800,
+    corpse = "steam-engine-remnants",
+    dying_explosion = "steam-engine-explosion",
+    alert_icon_shift = util.by_pixel(0, -12),
+    effectivity = 1,
+    fluid_usage_per_tick = 24,
+    maximum_temperature = 165,
+    resistances =
+    {
+      {
+        type = "fire",
+        percent = 70
+      },
+      {
+        type = "impact",
+        percent = 30
+      }
+    },
+    fast_replaceable_group = "steam-engine",
+    collision_box = {{-10.25, -17.35}, {10.25, 17.35}},
+    selection_box = {{-10.5, -17.5}, {10.5, 17.5}},
+    damaged_trigger_effect = hit_effects.entity(),
+    fluid_box =
+    {
+      volume = 200,
+      pipe_covers = pipecoverspictures(),
+      pipe_connections =
+      {
+        { flow_direction = "input-output", direction = defines.direction.south, position = {0, 17} }, -- 0, 2
+        { flow_direction = "input-output", direction = defines.direction.north, position = {0, -17} } -- 0, -2
+      },
+      production_type = "input",
+      filter = "steam",
+      minimum_temperature = 100.0
+    },
+    energy_source =
+    {
+      type = "electric",
+      usage_priority = "secondary-output"
+    },
+    horizontal_animation =
+    {
+      layers =
+      {
+        {
+          filename = "__base__/graphics/entity/steam-engine/steam-engine-H.png",
+          width = 352,
+          height = 257,
+          frame_count = 32,
+          line_length = 8,
+          shift = util.by_pixel(1, -4.75),
+          scale = 3.5
+        },
+        {
+          filename = "__base__/graphics/entity/steam-engine/steam-engine-H-shadow.png",
+          width = 508,
+          height = 160,
+          frame_count = 32,
+          line_length = 8,
+          draw_as_shadow = true,
+          shift = util.by_pixel(48, 24),
+          scale = 3.5
+        }
+      }
+    },
+    vertical_animation =
+    {
+      layers =
+      {
+        {
+          filename = "__base__/graphics/entity/steam-engine/steam-engine-V.png",
+          width = 225,
+          height = 391,
+          frame_count = 32,
+          line_length = 8,
+          shift = util.by_pixel(28.75, -44.25), --4.75
+          scale = 3.5
+        },
+        {
+          filename = "__base__/graphics/entity/steam-engine/steam-engine-V-shadow.png",
+          width = 330,
+          height = 307,
+          frame_count = 32,
+          line_length = 8,
+          draw_as_shadow = true,
+          shift = util.by_pixel(64.5, -41.25), --40.5
+          scale = 3.5
+        }
+      }
+    },
+    smoke =
+    {
+      {
+        name = "light-smoke",
+        north_position = {0.9, 0.0},
+        east_position = {-2.0, -2.0},
+        frequency = 10 / 32,
+        starting_vertical_speed = 0.08,
+        starting_frame_deviation = 60
+      }
+    },
+    impact_category = "metal-large",
+    open_sound = sounds.machine_open,
+    close_sound = sounds.machine_close,
+    working_sound =
+    {
+      sound =
+      {
+        filename = "__base__/sound/steam-engine-90bpm.ogg",
+        volume = 0.55,
+        speed_smoothing_window_size = 60,
+        modifiers = volume_multiplier("tips-and-tricks", 1.1),
+        audible_distance_modifier = 0.8,
+      },
+      match_speed_to_activity = true,
+      max_sounds_per_prototype = 3,
+      fade_in_ticks = 4,
+      fade_out_ticks = 20
+    },
+    perceived_performance = {minimum = 0.25, performance_to_activity_rate = 2.0},
+    water_reflection =
+    {
+      pictures =
+      {
+        filename = "__base__/graphics/entity/steam-engine/steam-engine-reflection.png",
+        priority = "extra-high",
+        width = 40,
+        height = 44,
+        shift = util.by_pixel(0, 55),
+        variation_count = 2,
+        repeat_count = 2,
+        scale = 35
+      },
+      rotate = false,
+      orientation_to_variation = true
+    }
+  },
+
+  {  --Большой нефтеперерабатывающий завод
+    type = "assembling-machine",
+    name = "big-oil-refinery",
+    icon = "__base__/graphics/icons/oil-refinery.png",
+    flags = {"placeable-neutral","player-creation"},
+    minable = {mining_time = 0.4, result = "big-oil-refinery"},
+    fast_replaceable_group = "oil-refinery",
+    max_health = 700,
+    corpse = "oil-refinery-remnants",
+    dying_explosion = "oil-refinery-explosion",
+    icon_draw_specification = {scale = 2, shift = {0, -0.3}},
+    circuit_wire_max_distance = assembling_machine_circuit_wire_max_distance,
+    circuit_connector = circuit_connector_definitions["oil-refinery"],
+    collision_box = {{-17.4, -17.4}, {17.4, 17.4}},
+    collision_mask = {layers={item=true, object=true, player=true, water_tile=true, elevated_rail=true, is_object=true, is_lower_object=true, meltable=true}},
+    selection_box = {{-17.5, -17.5}, {17.5, 17.5}},
+    damaged_trigger_effect = hit_effects.entity(),
+    drawing_box_vertical_extension = 0.3,
+    module_slots = 3,
+    allowed_effects = {"consumption", "speed", "productivity", "pollution"},
+    crafting_categories = {"oil-processing"},
+    crafting_speed = 48,
+    energy_source =
+    {
+      type = "electric",
+      usage_priority = "secondary-input",
+      emissions_per_minute = { pollution = 360 } -- 6
+    },
+    energy_usage = "25200kW",
+
+    graphics_set =
+    {
+      animation = make_4way_animation_from_spritesheet(
+      {
+        layers =
+        {
+          {
+            filename = "__base__/graphics/entity/oil-refinery/oil-refinery.png",
+            width = 386,
+            height = 430,
+            shift = util.by_pixel(0, -52.5), -- 0, -7.5
+            scale = 3.5
+          },
+          {
+            filename = "__base__/graphics/entity/oil-refinery/oil-refinery-shadow.png",
+            width = 674,
+            height = 426,
+            shift = util.by_pixel(82.5, -31.5), -- 82.5, 26.5
+            draw_as_shadow = true,
+            scale = 3.5
+          }
+        }
+      }),
+
+      working_visualisations =
+      {
+        {
+          fadeout = true,
+          constant_speed = true,
+          north_position = util.by_pixel(34, -65),
+          east_position = util.by_pixel(-52, -61),
+          south_position = util.by_pixel(-59, -82),
+          west_position = util.by_pixel(57, -58),
+          animation =
+          {
+            filename = "__base__/graphics/entity/oil-refinery/oil-refinery-fire.png",
+            line_length = 10,
+            width = 40,
+            height = 81,
+            frame_count = 60,
+            animation_speed = 0.75,
+            scale = 3.5,
+            draw_as_glow = true,
+            shift = util.by_pixel(0, -59.25) -- 0, -14.25
+          },
+        },
+        {
+          fadeout = true,
+          north_animation =
+          {
+            filename = "__base__/graphics/entity/oil-refinery/oil-refinery-light.png",
+            width = 321,
+            height = 205,
+            blend_mode = "additive",
+            draw_as_glow = true,
+            shift = util.by_pixel(-1, -45),
+            scale = 3.5,
+          },
+          east_animation =
+          {
+            filename = "__base__/graphics/entity/oil-refinery/oil-refinery-light.png",
+            width = 321,
+            x = 321;
+            height = 205,
+            blend_mode = "additive",
+            draw_as_glow = true,
+            shift = util.by_pixel(-1, -50),
+            scale = 3.5,
+          },
+          south_animation =
+          {
+            filename = "__base__/graphics/entity/oil-refinery/oil-refinery-light.png",
+            width = 321,
+            x = 321 * 2;
+            height = 205,
+            blend_mode = "additive",
+            draw_as_glow = true,
+            shift = util.by_pixel(-1, -50),
+            scale = 3.5,
+          },
+          west_animation =
+          {
+            filename = "__base__/graphics/entity/oil-refinery/oil-refinery-light.png",
+            width = 321,
+            x = 321 * 3;
+            height = 205,
+            blend_mode = "additive",
+            draw_as_glow = true,
+            shift = util.by_pixel(-1, -50),
+            scale = 3.5,
+          },
+        }
+      }
+    },
+    impact_category = "metal-large",
+    open_sound = sounds.metal_large_open,
+    close_sound = sounds.metal_large_close,
+    working_sound =
+    {
+      sound = { filename = "__base__/sound/oil-refinery.ogg" },
+      fade_in_ticks = 4,
+      fade_out_ticks = 20
+    },
+    fluid_boxes =
+    {
+      {
+        production_type = "input",
+        pipe_covers = pipecoverspictures(),
+        volume = 1000,
+        pipe_connections =
+        {
+          {
+            flow_direction="input",
+            direction = defines.direction.south,
+            position = {-7, 17} -- -1, 2
+          }
+        }
+      },
+      {
+        production_type = "input",
+        pipe_covers = pipecoverspictures(),
+        volume = 1000,
+        pipe_connections =
+        {
+          {
+            flow_direction="input",
+            direction = defines.direction.south,
+            position = {7, 17} -- 1, 2
+          }
+        }
+      },
+      {
+        production_type = "output",
+        pipe_covers = pipecoverspictures(),
+        volume = 100,
+        pipe_connections =
+        {
+          {
+            flow_direction = "output",
+            direction = defines.direction.north,
+            position = {-14, -17} -- -2, -2
+          }
+        }
+      },
+      {
+        production_type = "output",
+        pipe_covers = pipecoverspictures(),
+        volume = 100,
+        pipe_connections =
+        {
+          {
+            flow_direction = "output",
+            direction = defines.direction.north,
+            position = {0, -17} -- 0, -2
+          }
+        }
+      },
+      {
+        production_type = "output",
+        pipe_covers = pipecoverspictures(),
+        volume = 100,
+        pipe_connections =
+        {
+          {
+            flow_direction = "output",
+            direction = defines.direction.north,
+            position = {14, -17} -- 2, -2
+          }
+        }
+      }
+    },
+    water_reflection =
+    {
+      pictures =
+      {
+        filename = "__base__/graphics/entity/oil-refinery/oil-refinery-reflection.png",
+        priority = "extra-high",
+        width = 40,
+        height = 48,
+        shift = util.by_pixel(5, 95),
+        variation_count = 4,
+        scale = 35
+      },
+      rotate = false,
+      orientation_to_variation = true
+    }
+  },
+
+  {  --Большая деревянная опора ЛЭП
+    type = "electric-pole",
+    name = "big-small-electric-pole",
+    icon = "__base__/graphics/icons/small-electric-pole.png",
+    quality_indicator_scale = 0.75,
+    flags = {"placeable-neutral", "player-creation"},
+    minable = {mining_time = 0.2, result = "big-small-electric-pole"},
+    max_health = 100,
+    corpse = "small-electric-pole-remnants",
+    dying_explosion = "small-electric-pole-explosion",
+    collision_box = {{-3.1, -3.1}, {3.1, 3.1}},
+    selection_box = {{-3.4, -3.4}, {3.4, 3.4}},
+    damaged_trigger_effect = hit_effects.entity({{-0.2, -2.2}, {0.2, 0.2}}),
+    drawing_box_vertical_extension = 2.2,
+    maximum_wire_distance = 52,5,
+    supply_area_distance = 18,
+    impact_category = "wood",
+    open_sound = sounds.electric_network_open,
+    close_sound = sounds.electric_network_close,
+    fast_replaceable_group = "electric-pole",
+    pictures =
+    {
+      layers =
+      {
+        {
+          filename = "__base__/graphics/entity/small-electric-pole/small-electric-pole.png",
+          priority = "extra-high",
+          width = 72,
+          height = 220,
+          direction_count = 4,
+          shift = util.by_pixel(1.5, -248,5), -- 1.5, -42.5
+          scale = 3.5
+        },
+        {
+          filename = "__base__/graphics/entity/small-electric-pole/small-electric-pole-shadow.png",
+          priority = "extra-high",
+          width = 256,
+          height = 52,
+          direction_count = 4,
+          shift = util.by_pixel(51, -199), -- 51, 3)
+          draw_as_shadow = true,
+          scale = 3.5
+        }
+      }
+    },
+    connection_points =
+    {
+      {
+        shadow =
+        {
+          copper = util.by_pixel(98.5, -428.5),
+          red = util.by_pixel(111.0, -428.5),
+          green = util.by_pixel(85.5, -428.0)
+        },
+        wire =
+        {
+          copper = util.by_pixel(0.0, -513),
+          red = util.by_pixel(13.0, -513),
+          green = util.by_pixel(-12.5, -513)
+        }
+      },
+      {
+        shadow =
+        {
+          copper = util.by_pixel(99.5, -440.0),
+          red = util.by_pixel(110.0, -440.0),
+          green = util.by_pixel(92.5, -440.0)
+        },
+        wire =
+        {
+          copper = util.by_pixel(1.5, -521.0),
+          red = util.by_pixel(12.0, -521.0),
+          green = util.by_pixel(-6.0, -521.0)
+        }
+      },
+      {
+        shadow =
+        {
+          copper = util.by_pixel(100.5, -435.5),
+          red = util.by_pixel(102.5, -435.5),
+          green = util.by_pixel(103.5, -435.5)
+        },
+        wire =
+        {
+          copper = util.by_pixel(2.5, -521.5),
+          red = util.by_pixel(4.0, -521.0),
+          green = util.by_pixel(5.0, -521.5)
+        }
+      },
+      {
+        shadow =
+        {
+          copper = util.by_pixel(98.5, -451.5),
+          red = util.by_pixel(88.0, -451.5),
+          green = util.by_pixel(106.0, -451.0)
+        },
+        wire =
+        {
+          copper = util.by_pixel(0.5, -86.5),
+          red = util.by_pixel(-10.5, -81.5),
+          green = util.by_pixel(8.0, -93.5)
+        }
+      }
+    },
+    radius_visualisation_picture =
+    {
+      filename = "__base__/graphics/entity/small-electric-pole/electric-pole-radius-visualization.png",
+      width = 12,
+      height = 12,
+      priority = "extra-high-no-scale"
+    },
+    water_reflection =
+    {
+      pictures =
+      {
+        filename = "__base__/graphics/entity/small-electric-pole/small-electric-pole-reflection.png",
+        priority = "extra-high",
+        width = 12,
+        height = 28,
+        shift = util.by_pixel(5, 40),
+        variation_count = 4,
+        scale = 35
+      },
+      rotate = false,
+      orientation_to_variation = true
+    }
+  },
+
 })
