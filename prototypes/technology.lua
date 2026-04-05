@@ -141,5 +141,17 @@ if data.raw.technology["electronics"] and data.raw.recipe["small-electric-pole"]
     })
 end  --Большая деревянная опора ЛЭП
 
+if data.raw.technology["logistic-robotics"] and data.raw.recipe["logistic-robot"] then
+
+    if not data.raw.technology["logistic-robotics"].effects then
+        data.raw.technology["logistic-robotics"].effects = {}
+    end
+    
+
+    table.insert(data.raw.technology["logistic-robotics"].effects, {
+        type = "unlock-recipe",
+        recipe = "big-logistic-robot"
+    })
+end  --Большой транспортный дрон
 
 

@@ -180,6 +180,18 @@ data:extend
     stack_size = 5
   },
 
-
+  {  --Большой транспортный дрон
+    type = "item",
+    name = "big-logistic-robot",
+    icon = "__base__/graphics/icons/logistic-robot.png",
+    subgroup = "logistic-network",
+    order = "a[robot]-ab[logistic-robot]",
+    inventory_move_sound = item_sounds.robotic_inventory_move,
+    pick_sound = item_sounds.robotic_inventory_pickup,
+    drop_sound = item_sounds.robotic_inventory_move,
+    place_result = "big-logistic-robot",
+    stack_size = 5,
+    random_tint_color = item_tints.iron_rust
+  },
 
 })

@@ -105,5 +105,12 @@ data:extend
     results = {{type="item", name="big-small-electric-pole", amount=1}}
   },
 
+  {  --Большой транспортный дрон
+    type = "recipe",
+    name = "big-logistic-robot",
+    enabled = false,
+    ingredients = {{type = "item", name = "logistic-robot", amount = 96}},
+    results = {{type="item", name="big-logistic-robot", amount=1}}
+  },
 
 })

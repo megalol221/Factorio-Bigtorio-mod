@@ -1,23 +1,110 @@
 local sounds = require("__base__.prototypes.entity.sounds")
 local hit_effects = require("__base__.prototypes.entity.hit-effects")
 
-function boiler_reflection()
-  return
+local robot_animations = {}
+robot_animations.logistic_robot =
+{
+  idle =
   {
-    pictures =
-    {
-      filename = "__base__/graphics/entity/boiler/boiler-reflection.png",
-      priority = "extra-high",
-      width = 28,
-      height = 32,
-      shift = util.by_pixel(5, 30),
-      variation_count = 4,
-      scale = 35
-    },
-    rotate = false,
-    orientation_to_variation = true
+    filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
+    priority = "high",
+    line_length = 16,
+    width = 80,
+    height = 84,
+    shift = util.by_pixel(0, -3),
+    direction_count = 16,
+    y = 84,
+    scale = 0.5
+  },
+  idle_with_cargo =
+  {
+    filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
+    priority = "high",
+    line_length = 16,
+    width = 80,
+    height = 84,
+    shift = util.by_pixel(0, -3),
+    direction_count = 16,
+    scale = 0.5
+  },
+  in_motion =
+  {
+    filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
+    priority = "high",
+    line_length = 16,
+    width = 80,
+    height = 84,
+    shift = util.by_pixel(0, -3),
+    direction_count = 16,
+    y = 252,
+    scale = 0.5
+  },
+  in_motion_with_cargo =
+  {
+    filename = "__base__/graphics/entity/logistic-robot/logistic-robot.png",
+    priority = "high",
+    line_length = 16,
+    width = 80,
+    height = 84,
+    shift = util.by_pixel(0, -3),
+    direction_count = 16,
+    y = 168,
+    scale = 0.5
+  },
+  shadow_idle =
+  {
+    filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
+    priority = "high",
+    line_length = 16,
+    width = 115,
+    height = 57,
+    shift = util.by_pixel(31.75, 19.75),
+    direction_count = 16,
+    y = 57,
+    scale = 0.5,
+    draw_as_shadow = true
+  },
+  shadow_idle_with_cargo =
+  {
+    filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
+    priority = "high",
+    line_length = 16,
+    width = 115,
+    height = 57,
+    shift = util.by_pixel(31.75, 19.75),
+    direction_count = 16,
+    scale = 0.5,
+    draw_as_shadow = true
+  },
+  shadow_in_motion =
+  {
+    filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
+    priority = "high",
+    line_length = 16,
+    width = 115,
+    height = 57,
+    shift = util.by_pixel(31.75, 19.75),
+    direction_count = 16,
+    y = 57*3,
+    scale = 0.5,
+    draw_as_shadow = true
+  },
+  shadow_in_motion_with_cargo =
+  {
+    filename = "__base__/graphics/entity/logistic-robot/logistic-robot-shadow.png",
+    priority = "high",
+    line_length = 16,
+    width = 115,
+    height = 57,
+    shift = util.by_pixel(31.75, 19.75),
+    direction_count = 16,
+    y = 114,
+    scale = 0.5,
+    draw_as_shadow = true
   }
-end
+}
+
+
 
 data:extend
 ({
@@ -1808,4 +1895,45 @@ data:extend
     }
   },
 
+  {  --Большой транспортный дрон
+    type = "logistic-robot",
+    name = "big-logistic-robot",
+    icon = "__base__/graphics/icons/logistic-robot.png",
+    flags = {"placeable-player", "player-creation", "placeable-off-grid", "not-on-map"},
+    minable = {mining_time = 0.5, result = "big-logistic-robot"},
+    is_military_target = false,
+    resistances =
+    {
+      {
+        type = "fire",
+        percent = 85
+      }
+    },
+    max_health = 200,
+    collision_box = {{0, 0}, {0, 0}},
+    selection_box = {{-0.5, -1.5}, {0.5, -0.5}},
+    hit_visualization_box = {{-0.1, -1.1}, {0.1, -1.0}},
+    damaged_trigger_effect = hit_effects.flying_robot(),
+    dying_explosion = "logistic-robot-explosion",
+    max_payload_size = 1,
+    speed = 2,4,
+    max_energy = "90MJ",
+    energy_per_tick = "0.0625kJ",
+    speed_multiplier_when_out_of_energy = 9,6,
+    energy_per_move = "6.25kJ",
+    min_to_charge = 0.2,
+    max_to_charge = 0.95,
+    working_sound = sounds.flying_robot(0.48),
+    charging_sound = sounds.robot_charging,
+    icon_draw_specification = {shift = {0, -0.2}, scale = 0.5, render_layer = "air-entity-info-icon"},
+    water_reflection = robot_reflection(1),
+    idle = robot_animations.logistic_robot.idle,
+    idle_with_cargo = robot_animations.logistic_robot.idle_with_cargo,
+    in_motion = robot_animations.logistic_robot.in_motion,
+    in_motion_with_cargo = robot_animations.logistic_robot.in_motion_with_cargo,
+    shadow_idle = robot_animations.logistic_robot.shadow_idle,
+    shadow_idle_with_cargo = robot_animations.logistic_robot.shadow_idle_with_cargo,
+    shadow_in_motion = robot_animations.logistic_robot.shadow_in_motion,
+    shadow_in_motion_with_cargo = robot_animations.logistic_robot.shadow_in_motion_with_cargo
+  },
 })
