@@ -94,7 +94,7 @@ data:extend
     name = "big-oil-refinery",
     enabled = false,
     ingredients = {{type = "item", name = "oil-refinery", amount = 96}},
-    results = {{type="item", name="big-steam-engine", amount=1}}
+    results = {{type="item", name="big-oil-refinery", amount=1}}
   },
 
   {  --Большая деревянная опора ЛЭП
